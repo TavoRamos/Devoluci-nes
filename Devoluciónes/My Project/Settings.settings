@@ -18,58 +18,61 @@
       <Value Profile="(Default)">ts2008</Value>
     </Setting>
     <Setting Name="CNSDragon_Servidor" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">SVRDRAGON</Value>
     </Setting>
     <Setting Name="CNSDragon_Instancia" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">ZOOLOGIC</Value>
     </Setting>
     <Setting Name="CNSDragon_BD" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">DRAGONFISH_CENTRAL</Value>
     </Setting>
     <Setting Name="CNSDragon_Usuario" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">sa</Value>
     </Setting>
     <Setting Name="CNSDragon_Contrasenia" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">1234</Value>
     </Setting>
     <Setting Name="CNSLince_BDArt" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">art</Value>
     </Setting>
     <Setting Name="CNSLince_BDMov" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">mer</Value>
     </Setting>
     <Setting Name="CNSHexagono_Servidor" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">SERVERVERLOP</Value>
     </Setting>
     <Setting Name="CNSHexagono_Instancia" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">SQLEXPRESS2008V</Value>
     </Setting>
     <Setting Name="CNSHexagono_BD" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">verlop</Value>
     </Setting>
     <Setting Name="CNSHexagono_Usuario" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">dr</Value>
     </Setting>
     <Setting Name="CNSHexagono_Contrasenia" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">21goREkime</Value>
     </Setting>
     <Setting Name="CNSDevoluciones_Servidor" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">SVRDRAGON</Value>
     </Setting>
     <Setting Name="CNSDevoluciones_Instancia" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">ORAMOS</Value>
     </Setting>
     <Setting Name="CNSDevoluciones_BD" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Devoluciones</Value>
     </Setting>
     <Setting Name="CNSDevoluciones_Usuario" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">sa</Value>
     </Setting>
     <Setting Name="CNSDevoluciones_Contrasenia" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">21goREkime</Value>
     </Setting>
     <Setting Name="IntervaloBusqueda" Type="System.UInt64" Scope="User">
-      <Value Profile="(Default)">300000</Value>
+      <Value Profile="(Default)">150000</Value>
+    </Setting>
+    <Setting Name="CNSLince_UbicacionBD" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Z:\CENTRAL\DBF</Value>
     </Setting>
   </Settings>
 </SettingsFile>

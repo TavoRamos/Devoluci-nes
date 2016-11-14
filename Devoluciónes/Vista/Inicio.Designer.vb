@@ -26,17 +26,19 @@ Partial Class Inicio
         Me.MainMenu = New System.Windows.Forms.MenuStrip()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.DGVDev = New System.Windows.Forms.DataGridView()
+        Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.DGVDev, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'BarraTareas
         '
-        Me.BarraTareas.Location = New System.Drawing.Point(0, 437)
+        Me.BarraTareas.Location = New System.Drawing.Point(0, 708)
         Me.BarraTareas.Name = "BarraTareas"
-        Me.BarraTareas.Size = New System.Drawing.Size(756, 22)
+        Me.BarraTareas.Size = New System.Drawing.Size(1008, 22)
         Me.BarraTareas.TabIndex = 1
         Me.BarraTareas.Text = "StatusStrip1"
         '
@@ -44,7 +46,7 @@ Partial Class Inicio
         '
         Me.MainMenu.Location = New System.Drawing.Point(0, 0)
         Me.MainMenu.Name = "MainMenu"
-        Me.MainMenu.Size = New System.Drawing.Size(756, 24)
+        Me.MainMenu.Size = New System.Drawing.Size(1008, 24)
         Me.MainMenu.TabIndex = 2
         Me.MainMenu.Text = "MenuStrip1"
         '
@@ -57,8 +59,12 @@ Partial Class Inicio
         'SplitContainer1.Panel1
         '
         Me.SplitContainer1.Panel1.Controls.Add(Me.DGVDev)
-        Me.SplitContainer1.Size = New System.Drawing.Size(756, 413)
-        Me.SplitContainer1.SplitterDistance = 252
+        '
+        'SplitContainer1.Panel2
+        '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.CheckedListBox1)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1008, 684)
+        Me.SplitContainer1.SplitterDistance = 336
         Me.SplitContainer1.TabIndex = 3
         '
         'DGVDev
@@ -72,14 +78,22 @@ Partial Class Inicio
         Me.DGVDev.Name = "DGVDev"
         Me.DGVDev.RowHeadersVisible = False
         Me.DGVDev.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DGVDev.Size = New System.Drawing.Size(252, 413)
+        Me.DGVDev.Size = New System.Drawing.Size(336, 684)
         Me.DGVDev.TabIndex = 0
+        '
+        'CheckedListBox1
+        '
+        Me.CheckedListBox1.FormattingEnabled = True
+        Me.CheckedListBox1.Location = New System.Drawing.Point(3, 30)
+        Me.CheckedListBox1.Name = "CheckedListBox1"
+        Me.CheckedListBox1.Size = New System.Drawing.Size(192, 169)
+        Me.CheckedListBox1.TabIndex = 1
         '
         'Inicio
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(756, 459)
+        Me.ClientSize = New System.Drawing.Size(1008, 730)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.BarraTareas)
         Me.Controls.Add(Me.MainMenu)
@@ -88,6 +102,7 @@ Partial Class Inicio
         Me.Text = "Form1"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.DGVDev, System.ComponentModel.ISupportInitialize).EndInit()
@@ -100,4 +115,5 @@ Partial Class Inicio
     Friend WithEvents MainMenu As MenuStrip
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents DGVDev As DataGridView
+    Friend WithEvents CheckedListBox1 As CheckedListBox
 End Class

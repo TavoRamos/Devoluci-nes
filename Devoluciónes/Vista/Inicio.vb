@@ -2,12 +2,12 @@
 
 Public Class Inicio
     Dim Gestion = New ModeloGestion()
-    Dim ConexionDRA As SqlClient.SqlConnection
-    Dim ConexionLIN As SqlClient.SqlConnection
-    Dim ConexionDEV As SqlClient.SqlConnection
+    Dim Dragon = New ModeloDragonFish()
+    Dim Lince = New ModeloLince()
+    Dim Devoluciones = New ModeloDevoluciones()
+    Dim ConexionHEX = New ModeloHexagono()
     Dim WithEvents Icono As New NotifyIcon
     Dim WithEvents Timer As New Timer
-    'Dim ConexionHEX As SqlClient.SqlConnection
     Private Sub Inicio_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Icono.Visible = False
         Icono.Icon = My.Resources.Box2
@@ -31,7 +31,9 @@ Public Class Inicio
         Show()
         Icono.Visible = False
     End Sub
-    Public Sub BuscarDevoluciones()
-
+    Public Sub BuscarDevoluciones() Handles Timer.Tick
+        Icono.BalloonTipTitle = "Devoluciones locales"
+        Icono.BalloonTipText = (Gestion.ConsultarCantDevoluciones() - Devoluciones.DevolucionesPendientes()).ToString + If((Gestion.ConsultarCantDevoluciones() - Devoluciones.DevolucionesPendientes()) = 1, " Pendiente", " Pendientes")
+        Icono.ShowBalloonTip(500)
     End Sub
 End Class

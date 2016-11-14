@@ -113,7 +113,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("SVRDRAGON")>  _
         Public Property CNSDragon_Servidor() As String
             Get
                 Return CType(Me("CNSDragon_Servidor"),String)
@@ -125,7 +125,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("ZOOLOGIC")>  _
         Public Property CNSDragon_Instancia() As String
             Get
                 Return CType(Me("CNSDragon_Instancia"),String)
@@ -137,7 +137,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("DRAGONFISH_CENTRAL")>  _
         Public Property CNSDragon_BD() As String
             Get
                 Return CType(Me("CNSDragon_BD"),String)
@@ -149,7 +149,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("sa")>  _
         Public Property CNSDragon_Usuario() As String
             Get
                 Return CType(Me("CNSDragon_Usuario"),String)
@@ -161,7 +161,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1234")>  _
         Public Property CNSDragon_Contrasenia() As String
             Get
                 Return CType(Me("CNSDragon_Contrasenia"),String)
@@ -173,7 +173,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("art")>  _
         Public Property CNSLince_BDArt() As String
             Get
                 Return CType(Me("CNSLince_BDArt"),String)
@@ -185,7 +185,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("mer")>  _
         Public Property CNSLince_BDMov() As String
             Get
                 Return CType(Me("CNSLince_BDMov"),String)
@@ -197,7 +197,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("SERVERVERLOP")>  _
         Public Property CNSHexagono_Servidor() As String
             Get
                 Return CType(Me("CNSHexagono_Servidor"),String)
@@ -209,7 +209,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("SQLEXPRESS2008V")>  _
         Public Property CNSHexagono_Instancia() As String
             Get
                 Return CType(Me("CNSHexagono_Instancia"),String)
@@ -221,7 +221,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("verlop")>  _
         Public Property CNSHexagono_BD() As String
             Get
                 Return CType(Me("CNSHexagono_BD"),String)
@@ -233,7 +233,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("dr")>  _
         Public Property CNSHexagono_Usuario() As String
             Get
                 Return CType(Me("CNSHexagono_Usuario"),String)
@@ -245,7 +245,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("21goREkime")>  _
         Public Property CNSHexagono_Contrasenia() As String
             Get
                 Return CType(Me("CNSHexagono_Contrasenia"),String)
@@ -257,7 +257,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("SVRDRAGON")>  _
         Public Property CNSDevoluciones_Servidor() As String
             Get
                 Return CType(Me("CNSDevoluciones_Servidor"),String)
@@ -269,7 +269,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("ORAMOS")>  _
         Public Property CNSDevoluciones_Instancia() As String
             Get
                 Return CType(Me("CNSDevoluciones_Instancia"),String)
@@ -281,7 +281,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Devoluciones")>  _
         Public Property CNSDevoluciones_BD() As String
             Get
                 Return CType(Me("CNSDevoluciones_BD"),String)
@@ -293,7 +293,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("sa")>  _
         Public Property CNSDevoluciones_Usuario() As String
             Get
                 Return CType(Me("CNSDevoluciones_Usuario"),String)
@@ -305,7 +305,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("21goREkime")>  _
         Public Property CNSDevoluciones_Contrasenia() As String
             Get
                 Return CType(Me("CNSDevoluciones_Contrasenia"),String)
@@ -317,13 +317,25 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("300000")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("150000")>  _
         Public Property IntervaloBusqueda() As ULong
             Get
                 Return CType(Me("IntervaloBusqueda"),ULong)
             End Get
             Set
                 Me("IntervaloBusqueda") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Z:\CENTRAL\DBF")>  _
+        Public Property CNSLince_UbicacionBD() As String
+            Get
+                Return CType(Me("CNSLince_UbicacionBD"),String)
+            End Get
+            Set
+                Me("CNSLince_UbicacionBD") = value
             End Set
         End Property
     End Class
