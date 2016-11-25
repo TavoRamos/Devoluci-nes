@@ -245,7 +245,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("21goREkime")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("455415")>  _
         Public Property CNSHexagono_Contrasenia() As String
             Get
                 Return CType(Me("CNSHexagono_Contrasenia"),String)
@@ -329,13 +329,25 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Z:\CENTRAL\DBF")>  _
-        Public Property CNSLince_UbicacionBD() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("Z:\Lincev3\DEPOSITO\DBF\")>  _
+        Public Property CNSLince_UbicacionBDMov() As String
             Get
-                Return CType(Me("CNSLince_UbicacionBD"),String)
+                Return CType(Me("CNSLince_UbicacionBDMov"),String)
             End Get
             Set
-                Me("CNSLince_UbicacionBD") = value
+                Me("CNSLince_UbicacionBDMov") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Z:\CENTRAL\DBF\")>  _
+        Public Property CNSLince_UbicacionBDArt() As String
+            Get
+                Return CType(Me("CNSLince_UbicacionBDArt"),String)
+            End Get
+            Set
+                Me("CNSLince_UbicacionBDArt") = value
             End Set
         End Property
     End Class

@@ -51,7 +51,7 @@
       <Value Profile="(Default)">dr</Value>
     </Setting>
     <Setting Name="CNSHexagono_Contrasenia" Type="System.String" Scope="User">
-      <Value Profile="(Default)">21goREkime</Value>
+      <Value Profile="(Default)">455415</Value>
     </Setting>
     <Setting Name="CNSDevoluciones_Servidor" Type="System.String" Scope="User">
       <Value Profile="(Default)">SVRDRAGON</Value>
@@ -71,8 +71,11 @@
     <Setting Name="IntervaloBusqueda" Type="System.UInt64" Scope="User">
       <Value Profile="(Default)">150000</Value>
     </Setting>
-    <Setting Name="CNSLince_UbicacionBD" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Z:\CENTRAL\DBF</Value>
+    <Setting Name="CNSLince_UbicacionBDMov" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Z:\Lincev3\DEPOSITO\DBF\</Value>
+    </Setting>
+    <Setting Name="CNSLince_UbicacionBDArt" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Z:\CENTRAL\DBF\</Value>
     </Setting>
   </Settings>
 </SettingsFile>

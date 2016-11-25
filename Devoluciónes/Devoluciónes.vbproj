@@ -76,7 +76,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controlador\ArticuloLince.vb" />
-    <Compile Include="Controlador\Cliente.vb" />
+    <Compile Include="Controlador\Herramientas.vb" />
+    <Compile Include="Controlador\Sucursales.vb" />
     <Compile Include="Modelo\ModeloDBF.vb" />
     <Compile Include="Modelo\ModeloDevoluciones.vb" />
     <Compile Include="Modelo\ModeloDragonFish.vb" />

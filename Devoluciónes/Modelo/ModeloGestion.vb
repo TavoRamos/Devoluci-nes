@@ -1,5 +1,5 @@
 ﻿Imports System.Data.SqlClient
-
+Imports System.Text.RegularExpressions.Regex
 Public Class ModeloGestion
     Inherits ModeloSQL
     Public Sub New()
@@ -7,29 +7,33 @@ Public Class ModeloGestion
     End Sub
     Public Function ConsultarDevoluciones() As DataTable
         Dim Consulta As String = "SELECT 'LE COQ-'+CAST(TCM.GIT05Id As Varchar) +'-'+ TCM.CodTCm As 'EMP-CODTCM-TCM',
+                                    CPB.GIN01Id AS 'ID',
                                     CPB.NumComO As 'Comprobante',
                                     CPB.FecCom As 'Fecha',
                                     ANA.CodAna+' - '+REPLACE(SUBSTRING(ANA.DesAna,CHARINDEX('(',ANA.DesAna)+1,LEN(ANA.DesAnA)),')','') As 'Sucursal',
-                                    ISNULL(SUM(ITS.Cantid),0) As 'Cantidad'
+                                    ISNULL(SUM(ITS.Cantid),0) As 'Cantidad',
+                                    CPB.ConPas As 'Concepto'
                                     FROM GI_DN.dbo.GIN01CPB AS CPB
                                     INNER JOIN GI_DN.dbo.GIT05TCM AS TCM ON TCM.GIT05Id=CPB.IDGIT05O
                                     INNER JOIN GI_DN.dbo.GIM02ANA AS ANA ON CPB.IdGIM02O=ANA.GIM02Id
                                     LEFT JOIN GI_DN.dbo.GIN02ITS AS ITS ON CPB.GIN01Id=ITS.IdGIN01O
-                                    WHERE TCM.GIT05Id=341 AND ANA.DesAna LIKE 'DISTRINANDO S.A_%(%' AND ANA.GIM02Id <> 36707 AND ANA.GIM02Id <> 4193 AND ANA.GIM02Id <> 38238 AND ANA.GIM02Id <> 37962
-                                    GROUP BY NumComO,GIT05Id,CodTCm,FecCom,CodAna,DesAna
+                                    WHERE TCM.GIT05Id=341 AND ANA.DesAna LIKE 'DISTRINANDO S.A_%(%' AND ANA.GIM02Id <> 36707 AND ANA.GIM02Id <> 4193 AND ANA.GIM02Id <> 38238 AND ANA.GIM02Id <> 37962 AND CPB.Estado<>'A'
+                                    GROUP BY CPB.GIN01Id,NumComO,GIT05Id,CodTCm,FecCom,CodAna,DesAna,ConPas
                                     UNION
-                                    SELECT 'LE COQ-'+CAST(TCM.GIT05Id As Varchar) +'-'+ TCM.CodTCm As 'EMP-CODTCM-TCM',
+                                    SELECT 'DISTRI-'+CAST(TCM.GIT05Id As Varchar) +'-'+ TCM.CodTCm As 'EMP-CODTCM-TCM',
+                                    CPB.GIN01Id AS 'ID',
                                     CPB.NumComO As 'Comprobante',
                                     CPB.FecCom As 'Fecha',
                                     ANA.CodAna+' - '+REPLACE(SUBSTRING(ANA.DesAna,CHARINDEX('(',ANA.DesAna)+1,LEN(ANA.DesAnA)),')','') As 'Sucursal',
-                                    ISNULL(SUM(ITS.Cantid),0) As 'Cantidad'
+                                    ISNULL(SUM(ITS.Cantid),0) As 'Cantidad',
+                                    CPB.ConPas As 'Concepto'
                                     FROM GI_DN2.dbo.GIN01CPB AS CPB
                                     INNER JOIN GI_DN2.dbo.GIT05TCM AS TCM ON TCM.GIT05Id=CPB.IDGIT05O
                                     INNER JOIN GI_DN2.dbo.GIM02ANA AS ANA ON CPB.IdGIM02O=ANA.GIM02Id
                                     LEFT JOIN GI_DN2.dbo.GIN02ITS AS ITS ON CPB.GIN01Id=ITS.IdGIN01O
-                                    WHERE TCM.GIT05Id=341 AND ANA.DesAna LIKE 'DISTRINANDO S.A_%(%' AND ANA.GIM02Id <> 36707 AND ANA.GIM02Id <> 4193 AND ANA.GIM02Id <> 38238 AND ANA.GIM02Id <> 37962
-                                    GROUP BY NumComO,GIT05Id,CodTCm,FecCom,CodAna,DesAna
-                                    ORDER BY [Fecha] DESC"
+                                    WHERE TCM.GIT05Id=341 AND ANA.DesAna LIKE 'DISTRINANDO S.A_%(%' AND ANA.GIM02Id <> 36707 AND ANA.GIM02Id <> 4193 AND ANA.GIM02Id <> 38238 AND ANA.GIM02Id <> 37962 AND CPB.Estado<>'A'
+                                    GROUP BY CPB.GIN01Id,NumComO,GIT05Id,CodTCm,FecCom,CodAna,DesAna,ConPas
+                                    ORDER BY [Comprobante],[Fecha] DESC"
         Dim DT = New DataTable
         Try
             Dim CMD As New SqlCommand(Consulta, MyBase.CNS)
@@ -41,12 +45,13 @@ Public Class ModeloGestion
         End Try
         Return DT
     End Function
+
     Public Function ConsultarCantDevoluciones() As Integer
         Dim R As Integer
         Dim ConsultaCantidadGestion As String = "DECLARE @CantLecoq As int
-                                                    SET @CantLecoq=(SELECT DISTINCT COUNT(CPB.NUMCOMO) As 'Cantidad devoluciones' FROM GI_DN.dbo.GIN01CPB AS CPB INNER JOIN GI_DN.dbo.GIT05TCM AS TCM ON TCM.GIT05Id=CPB.IDGIT05O INNER JOIN GI_DN.dbo.GIM02ANA AS ANA ON CPB.IdGIM02O=ANA.GIM02Id WHERE TCM.GIT05Id=341 AND ANA.DesAna LIKE 'DISTRINANDO S.A_%(%' AND ANA.GIM02Id <> 36707 AND ANA.GIM02Id <> 4193 AND ANA.GIM02Id <> 38238 AND ANA.GIM02Id <> 37962)
+                                                    SET @CantLecoq=(SELECT DISTINCT COUNT(CPB.NUMCOMO) As 'Cantidad devoluciones' FROM GI_DN.dbo.GIN01CPB AS CPB INNER JOIN GI_DN.dbo.GIT05TCM AS TCM ON TCM.GIT05Id=CPB.IDGIT05O INNER JOIN GI_DN.dbo.GIM02ANA AS ANA ON CPB.IdGIM02O=ANA.GIM02Id WHERE TCM.GIT05Id=341 AND ANA.DesAna LIKE 'DISTRINANDO S.A_%(%' AND ANA.GIM02Id <> 36707 AND ANA.GIM02Id <> 4193 AND ANA.GIM02Id <> 38238 AND ANA.GIM02Id <> 37962 AND CPB.Estado<>'A')
                                                     DECLARE @CantDistri As int
-                                                    SET @CantDistri=(SELECT DISTINCT COUNT(CPB.NUMCOMO) As 'Cantidad devoluciones' FROM GI_DN2.dbo.GIN01CPB AS CPB INNER JOIN GI_DN2.dbo.GIT05TCM AS TCM ON TCM.GIT05Id=CPB.IDGIT05O INNER JOIN GI_DN2.dbo.GIM02ANA AS ANA ON CPB.IdGIM02O=ANA.GIM02Id WHERE TCM.GIT05Id=341 AND ANA.DesAna LIKE 'DISTRINANDO S.A_%(%' AND ANA.GIM02Id <> 36707 AND ANA.GIM02Id <> 4193 AND ANA.GIM02Id <> 38238 AND ANA .GIM02Id <> 37962)
+                                                    SET @CantDistri=(SELECT DISTINCT COUNT(CPB.NUMCOMO) As 'Cantidad devoluciones' FROM GI_DN2.dbo.GIN01CPB AS CPB INNER JOIN GI_DN2.dbo.GIT05TCM AS TCM ON TCM.GIT05Id=CPB.IDGIT05O INNER JOIN GI_DN2.dbo.GIM02ANA AS ANA ON CPB.IdGIM02O=ANA.GIM02Id WHERE TCM.GIT05Id=341 AND ANA.DesAna LIKE 'DISTRINANDO S.A_%(%' AND ANA.GIM02Id <> 36707 AND ANA.GIM02Id <> 4193 AND ANA.GIM02Id <> 38238 AND ANA .GIM02Id <> 37962 AND CPB.Estado<>'A')
                                                     SELECT @CantLecoq+@CantDistri As 'Cant. devoluciones Gestion'"
         Try
             Dim DT As New DataTable
@@ -60,5 +65,179 @@ Public Class ModeloGestion
             Return Nothing
         End Try
         Return R
+    End Function
+    Public Function ConsultarCantDevolucionesPorLocal() As Integer
+        Dim R As Integer
+        Dim ConsultaCantidadGestion As String = "DECLARE @CantLecoq As int
+                                                    SET @CantLecoq=(SELECT DISTINCT COUNT(CPB.NUMCOMO) As 'Cantidad devoluciones' FROM GI_DN.dbo.GIN01CPB AS CPB INNER JOIN GI_DN.dbo.GIT05TCM AS TCM ON TCM.GIT05Id=CPB.IDGIT05O INNER JOIN GI_DN.dbo.GIM02ANA AS ANA ON CPB.IdGIM02O=ANA.GIM02Id WHERE TCM.GIT05Id=341 AND ANA.DesAna LIKE 'DISTRINANDO S.A_%(%' AND ANA.GIM02Id <> 36707 AND ANA.GIM02Id <> 4193 AND ANA.GIM02Id <> 38238 AND ANA.GIM02Id <> 37962 AND CPB.Estado<>'A')
+                                                    DECLARE @CantDistri As int
+                                                    SET @CantDistri=(SELECT DISTINCT COUNT(CPB.NUMCOMO) As 'Cantidad devoluciones' FROM GI_DN2.dbo.GIN01CPB AS CPB INNER JOIN GI_DN2.dbo.GIT05TCM AS TCM ON TCM.GIT05Id=CPB.IDGIT05O INNER JOIN GI_DN2.dbo.GIM02ANA AS ANA ON CPB.IdGIM02O=ANA.GIM02Id WHERE TCM.GIT05Id=341 AND ANA.DesAna LIKE 'DISTRINANDO S.A_%(%' AND ANA.GIM02Id <> 36707 AND ANA.GIM02Id <> 4193 AND ANA.GIM02Id <> 38238 AND ANA .GIM02Id <> 37962 AND CPB.Estado<>'A')
+                                                    SELECT @CantLecoq+@CantDistri As 'Cant. devoluciones Gestion'"
+        Try
+            Dim DT As New DataTable
+            Dim DA As New SqlDataAdapter(ConsultaCantidadGestion, MyBase.CNS)
+            DA.Fill(DT)
+            R = DT.Rows(0).Item(0)
+            DA.Dispose()
+            DT.Dispose()
+        Catch ex As SqlException
+            MsgBox("ModeloGestion.ListaDevGestion" + vbCrLf + ex.Message)
+            Return Nothing
+        End Try
+        Return R
+    End Function
+    Public Function DetalleDevolucion(ByRef ID_comp As Integer, ByRef distri_Lecoq As String) As DataTable
+        Dim str = If(distri_Lecoq = "Distri", "GI_DN.DBO.", "GI_DN2.DBO.")
+        Dim Consulta As String = "SELECT
+                                        ITS.GIN02ID AS 'IDITM',
+                                        /*LTRIM(RTRIM(ART.CodArt))+'-'+LTRIM(RTRIM(GIT521.CODDSC)) AS 'CODIGO-VARIANTE',*/
+                                        LTRIM(RTRIM(ART.CodArt)) AS 'CODIGO',
+                                        LTRIM(RTRIM(GIT521.CODDSC)) AS 'VARIANTE',
+                                        /*LTRIM(RTRIM(ART.DesArt))+' - '+LTRIM(RTRIM(GIT521.DESDSC)) AS 'ARTICULO',*/
+                                        ISNULL(GIT522.CODDSC,GIT521.CODDSC) AS 'TALLE',
+                                        ITS.Cantid AS 'CANTIDAD',
+                                        ITS.Observ AS 'OBSERVACIÓN'
+                                        FROM " & str & "GIN02ITS AS ITS
+                                        INNER JOIN " & str & "GIM21ART AS ART ON ART.GIM21Id=ITS.IdGIM21
+                                        LEFT JOIN " & str & "GIT52DSC AS GIT521 ON ITS.IdGIT521=GIT521.GIT52Id
+                                        LEFT JOIN " & str & "GIT52DSC AS GIT522 ON ITS.IdGIT522=GIT522.GIT52Id
+                                        INNER JOIN " & str & "GIN01CPB AS CPB ON CPB.GIN01Id=ITS.IdGIN01O
+                                        WHERE CPB.GIN01Id=" & ID_comp & "
+                                        ORDER BY CPB.NumComO"
+        Dim DT = New DataTable
+        Try
+            Dim CMD As New SqlCommand(Consulta, CNS)
+            Dim DA = New SqlDataAdapter(CMD)
+            DA.Fill(DT)
+        Catch ex As SqlException
+            MsgBox("ModeloGestion.DetalleDevolucion" + vbCrLf + ex.Message)
+            Return Nothing
+        End Try
+        Return DT
+    End Function
+    Public Function ConvertirCodigosALince(ByRef id_comp As Integer, ByRef distri_Lecoq As String, ByVal Suc As Sucursal) As DataTable
+        Dim DT As New DataTable
+        DT = DetalleDevolucion(id_comp, distri_Lecoq)
+        Dim PK(0) As DataColumn
+        PK(0) = DT.Columns(0)
+        DT.PrimaryKey = PK
+        Try
+            DT.Columns.Add(New DataColumn("CONVERTIDO", Type.GetType("System.Boolean")))
+            Dim DBFArticulos = New ModeloDBF(My.Settings.CNSLince_UbicacionBDArt, My.Settings.CNSLince_BDArt)
+            Dim ArtOriginal As String
+            'ES CROCS
+            Dim CROCS = (From p As DataRow In DT Select p Where p.Item("CODIGO") Like "C-*").ToList
+            For Each fila As DataRow In CROCS
+                ArtOriginal = fila.Item("CODIGO").ToString
+                'ELIMINO IDENTIFICADOR INTERNO.
+                While IsMatch(Mid(fila.Item("CODIGO").ToString, Len(fila.Item("CODIGO").ToString) - 3, 4), "(-)|([-LIMN]{1,2}$)", System.Text.RegularExpressions.RegexOptions.IgnoreCase)
+                    fila.Item("CODIGO") = UltimoCaracter(fila.Item("CODIGO".ToString))
+                    fila.Item("CODIGO") = fila.Item("CODIGO").ToString.Insert(1, "-")
+                End While
+                'VERIFICO EXISTENCIA
+                If DBFArticulos.buscarArticulo(fila.Item("CODIGO").ToString.ToUpper) = False Then
+                    fila.Item("CODIGO") = ArtOriginal
+                    fila.Item("CONVERTIDO") = False
+                Else
+                    fila.Item("CONVERTIDO") = True
+                End If
+                'DT.Rows.Remove(DT.Rows.Find(fila.Item("IDITM")))
+            Next
+            'ES LECOQ
+            Dim LECOQ = (From p As DataRow In DT Select p Where p.Item("CODIGO").ToString Like "[0-9]-*").ToList
+            For Each fila As DataRow In LECOQ
+                ArtOriginal = fila.Item("CODIGO").ToString
+                'ELIMINO IDENTIFICADOR INTERNO.
+                While IsMatch(Mid(fila.Item("CODIGO").ToString, Len(fila.Item("CODIGO").ToString) - 3, 4), "(-)|([-LIMN]{1,2}$)", System.Text.RegularExpressions.RegexOptions.IgnoreCase)
+                    fila.Item("CODIGO") = UltimoCaracter(fila.Item("CODIGO").ToString)
+                    fila.Item("CODIGO") = fila.Item("CODIGO").ToString.Insert(1, "-")
+                End While
+                'VERIFICO EXISTENCIA / *** MEJORAR DOBLE VERIFICACION *** VER REGEX (REGEXR.COM) *** /
+                If DBFArticulos.buscarArticulo(fila.Item("CODIGO").ToString.ToUpper) = False Then
+                    'CONCATENO CODIGO DE VARIANTE
+                    fila.Item("CODIGO") = String.Concat(fila.Item("CODIGO"), fila.Item("VARIANTE"))
+                    'VUELVO A VERIFICAR EXISTENCIA
+                    If DBFArticulos.buscarArticulo(fila.Item("CODIGO").ToString.ToUpper) = False Then
+                        fila.Item("CODIGO") = ArtOriginal
+                        fila.Item("CONVERTIDO") = False
+                    Else
+                        fila.Item("CONVERTIDO") = True
+                    End If
+                Else
+                    fila.Item("CONVERTIDO") = True
+                End If
+                'DT.Rows.Remove(DT.Rows.Find(fila.Item("IDITM")))
+            Next
+            'ES SUPERGA
+            Dim SUPERGA = (From p As DataRow In DT Select p Where IsMatch(p.Item("CODIGO").ToString, "^([S-]+\d{1}[-S]+)\w*") = True).ToList
+            For Each fila As DataRow In SUPERGA
+                ArtOriginal = fila.Item("CODIGO").ToString
+                'ELIMINO IDENTIFICADOR INTERNO.
+                While IsMatch(Mid(fila.Item("CODIGO").ToString, Len(fila.Item("CODIGO").ToString) - 3, 4), "(-)|([-LIMN]{1,2}$)", System.Text.RegularExpressions.RegexOptions.IgnoreCase)
+                    fila.Item("CODIGO") = UltimoCaracter(fila.Item("CODIGO").ToString)
+                End While
+                'VERIFICO EXISTENCIA
+                If DBFArticulos.buscarArticulo(fila.Item("CODIGO").ToString.ToUpper) = False Then
+                    fila.Item("CODIGO") = ArtOriginal
+                    fila.Item("CONVERTIDO") = False
+                Else
+                    fila.Item("CONVERTIDO") = True
+                End If
+                'DT.Rows.Remove(DT.Rows.Find(fila.Item("IDITM")))
+            Next
+            'ES KAPPA
+            'Dim KAPPA = (From p As DataRow In DT Select p Where IsMatch(p.Item("CODIGO").ToString, "^([K-]{2}\d{1}[-]{1})\w*") = True).ToList
+            Dim KAPPA = (From p As DataRow In DT Select p Where p.Item("CODIGO").ToString Like "K-?-*" Or p.Item("CODIGO").ToString Like "k-?-*").ToList
+            For Each fila As DataRow In KAPPA
+                ArtOriginal = fila.Item("CODIGO").ToString
+                'ELIMINO IDENTIFICADOR INTERNO.
+                'While IsNumeric(Mid(fila.Item("CODIGO".ToString), Len(fila.Item("CODIGO".ToString)), 1)) = False
+                '    fila.Item("CODIGO") = UltimoCaracter(fila.Item("CODIGO".ToString))
+                'End While
+                If IsMatch(Mid(fila.Item("CODIGO").ToString, Len(fila.Item("CODIGO").ToString) - 3, 4), "(-)|([-LIMN]{1,2}$)", System.Text.RegularExpressions.RegexOptions.IgnoreCase) Then
+                    For i = 1 To 3
+                        fila.Item("CODIGO") = UltimoCaracter(fila.Item("CODIGO".ToString))
+                    Next
+                End If
+                'ELIMINO PRIMER GUION
+                fila.Item("CODIGO") = fila.Item("CODIGO").ToString.Remove(1, 1)
+                'VERIFICO EXISTENCIA / *** MEJORAR DOBLE VERIFICACION *** VER REGEX (REGEXR.COM) *** /
+                If DBFArticulos.buscarArticulo(fila.Item("CODIGO").ToString.ToUpper) = False Then
+                    'CONCATENO CODIGO DE VARIANTE
+                    fila.Item("CODIGO") = String.Concat(fila.Item("CODIGO"), fila.Item("VARIANTE"))
+                    'VERIFICO EL LARGO
+                    If Len(fila.Item("CODIGO")) > 13 Then
+                        fila.Item("CODIGO") = fila.Item("CODIGO").ToString.Replace("-", "")
+                        fila.Item("CODIGO") = fila.Item("CODIGO").ToString.Insert(1, "-")
+                    End If
+                    'VERIFICO EXISTENCIA (Otra vez)
+                    If DBFArticulos.buscarArticulo(fila.Item("CODIGO").ToString.ToUpper) = False Then
+                        fila.Item("CODIGO") = ArtOriginal
+                        fila.Item("CONVERTIDO") = False
+                    Else
+                        fila.Item("CONVERTIDO") = True
+                    End If
+                Else
+                    fila.Item("CONVERTIDO") = True
+                End If
+                'DT.Rows.Remove(DT.Rows.Find(fila.Item("IDITM")))
+            Next
+            If CROCS.Count > 0 Then
+                DT.Merge(CROCS.CopyToDataTable)
+            End If
+            If SUPERGA.Count > 0 Then
+                DT.Merge(SUPERGA.CopyToDataTable)
+            End If
+            If LECOQ.Count > 0 Then
+                DT.Merge(LECOQ.CopyToDataTable)
+            End If
+            If KAPPA.Count > 0 Then
+                DT.Merge(KAPPA.CopyToDataTable)
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+        Dim x = New List(Of String)
+        Return DT
     End Function
 End Class

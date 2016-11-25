@@ -1,13 +1,12 @@
 ﻿Imports System.Data.Odbc
 
 Public Class ModeloDBF
-    Protected Friend Property CNS As OdbcConnection
+    Public CNS As OdbcConnection
     Protected Friend Property Ubicacion As String
     Protected Friend Property NombreDB As String
 
     Public Sub New(ByRef ubicacion As String, ByRef nombre_db As String)
-        Dim a As New OdbcConnection("Driver={Microsoft Visual FoxPro Driver};SourceType=DBF;SourceDB=" &
-                ubicacion & ";")
+        Dim a = New OdbcConnection("Driver={Microsoft Visual FoxPro Driver};SourceType=DBF;SourceDB=" & ubicacion & ";")
         Try
             a.Open()
             a.Close()
@@ -19,6 +18,7 @@ Public Class ModeloDBF
             Return
         End Try
         CNS = a
+        CNS.ConnectionString = a.ConnectionString
         NombreDB = nombre_db
     End Sub
     Public Sub New(ByRef ubicacion As String)
@@ -28,7 +28,7 @@ Public Class ModeloDBF
             a.Open()
             a.Close()
         Catch ex As Exception
-            MsgBox("ERROR AL CONECTAR DB" + vbCrLf + ex.Message)
+            MsgBox("Error AL CONECTAR DB" + vbCrLf + ex.Message)
             CNS = Nothing
             NombreDB = Nothing
             a.Close()
@@ -46,11 +46,9 @@ Public Class ModeloDBF
         End If
         Dim dt As New DataTable
         Try
-            Using CNS
-                CNS.Open()
-                da.Fill(dt)
-                CNS.Close()
-            End Using
+            CNS.Open()
+            da.Fill(dt)
+            CNS.Close()
         Catch ex As Exception
             MessageBox.Show("Error al abrir la base de datos" & vbCrLf & ex.Message)
         End Try
@@ -69,13 +67,9 @@ Public Class ModeloDBF
         End If
         Dim dt As New DataTable
         Try
-            Using CNS
-                CNS.Open()
-
-                da.Fill(dt)
-                CNS.Close()
-
-            End Using
+            CNS.Open()
+            da.Fill(dt)
+            CNS.Close()
         Catch ex As Exception
             MessageBox.Show("Error al abrir la base de datos" & vbCrLf & ex.Message)
         End Try

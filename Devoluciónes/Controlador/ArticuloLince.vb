@@ -17,7 +17,7 @@ Public Class ArticuloLince
         Me.Precio = precio
     End Sub
     Public Shared Function NuevoArticuloDesdeBD(ByRef codart As String) As ArticuloLince
-        Dim BD As New ModeloDBF(My.Settings.CNSLince_UbicacionBD, My.Settings.CNSLince_BDArt)
+        Dim BD As New ModeloDBF(My.Settings.CNSLince_UbicacionBDMov, My.Settings.CNSLince_BDArt)
         Dim dt As DataTable = BD.ObtenerArticulo(codart)
         Dim precio = New List(Of Decimal)
         precio.Add(Decimal.TryParse(dt.Rows(0).Item("apr1").ToString, 0))

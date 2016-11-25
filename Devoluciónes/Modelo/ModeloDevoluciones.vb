@@ -8,7 +8,6 @@ Public Class ModeloDevoluciones
     Public Function DevolucionesPendientes() As UInteger
         Dim R1 As Integer
         Dim ConsultaCantidadDev As String = "SELECT COUNT(ID) FROM Devoluciones WHERE FechaAutorizacion IS NULL"
-
         Try
             Dim CMD1 As New SqlCommand(ConsultaCantidadDev, CNS)
             CNS.Open()
