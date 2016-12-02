@@ -6,7 +6,7 @@
     Public Function DetalleMovimiento(ByRef NumMovimiento As Integer) As DataTable
         Dim da
         If Not String.IsNullOrWhiteSpace(NombreDB) Then
-            da = New System.Data.Odbc.OdbcDataAdapter("Select mart,mtall,desc,canti FROM " & NombreDB & " WHERE mx1=" & NumMovimiento.ToString, CNS)
+            da = New System.Data.Odbc.OdbcDataAdapter("Select mart As 'CODIGO',mtall As 'TALLE',desc As 'ARTICULO',canti As 'CANTIDAD' FROM " & NombreDB & " WHERE mx1=" & NumMovimiento.ToString, CNS)
         End If
         Dim dt As New DataTable
         Try

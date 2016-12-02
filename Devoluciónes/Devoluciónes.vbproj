@@ -75,15 +75,26 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controlador\ArticuloGenerico.vb" />
     <Compile Include="Controlador\ArticuloLince.vb" />
+    <Compile Include="Controlador\Devolucion.vb" />
     <Compile Include="Controlador\Herramientas.vb" />
+    <Compile Include="Controlador\ItemDevolucion.vb" />
     <Compile Include="Controlador\Sucursales.vb" />
+    <Compile Include="Controlador\Talle.vb" />
+    <Compile Include="Controlador\Alternativa.vb" />
     <Compile Include="Modelo\ModeloDBF.vb" />
     <Compile Include="Modelo\ModeloDevoluciones.vb" />
     <Compile Include="Modelo\ModeloDragonFish.vb" />
     <Compile Include="Modelo\ModeloGestion.vb" />
     <Compile Include="Modelo\ModeloHexagono.vb" />
     <Compile Include="Modelo\ModeloLince.vb" />
+    <Compile Include="Vista\DLGDiferencias.Designer.vb">
+      <DependentUpon>DLGDiferencias.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\DLGDiferencias.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Vista\Inicio.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +120,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Vista\DLGDiferencias.resx">
+      <DependentUpon>DLGDiferencias.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Vista\Inicio.resx">
       <DependentUpon>Inicio.vb</DependentUpon>
     </EmbeddedResource>

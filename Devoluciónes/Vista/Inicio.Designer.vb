@@ -25,8 +25,10 @@ Partial Class Inicio
         Me.BarraTareas = New System.Windows.Forms.StatusStrip()
         Me.MainMenu = New System.Windows.Forms.MenuStrip()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.BTNLimpiarSeleccion = New System.Windows.Forms.Button()
         Me.DGVDev = New System.Windows.Forms.DataGridView()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.BTNDiferencias = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ListaMovsRef = New System.Windows.Forms.CheckedListBox()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
@@ -77,6 +79,7 @@ Partial Class Inicio
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.BTNLimpiarSeleccion)
         Me.SplitContainer1.Panel1.Controls.Add(Me.DGVDev)
         '
         'SplitContainer1.Panel2
@@ -85,6 +88,18 @@ Partial Class Inicio
         Me.SplitContainer1.Size = New System.Drawing.Size(1008, 684)
         Me.SplitContainer1.SplitterDistance = 336
         Me.SplitContainer1.TabIndex = 3
+        '
+        'BTNLimpiarSeleccion
+        '
+        Me.BTNLimpiarSeleccion.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.BTNLimpiarSeleccion.AutoSize = True
+        Me.BTNLimpiarSeleccion.Location = New System.Drawing.Point(235, 3)
+        Me.BTNLimpiarSeleccion.Name = "BTNLimpiarSeleccion"
+        Me.BTNLimpiarSeleccion.Size = New System.Drawing.Size(98, 37)
+        Me.BTNLimpiarSeleccion.TabIndex = 1
+        Me.BTNLimpiarSeleccion.Text = "Limpiar selección"
+        Me.BTNLimpiarSeleccion.UseVisualStyleBackColor = True
+        Me.BTNLimpiarSeleccion.Visible = False
         '
         'DGVDev
         '
@@ -109,6 +124,7 @@ Partial Class Inicio
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.BTNDiferencias)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Label1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.ListaMovsRef)
         '
@@ -118,6 +134,17 @@ Partial Class Inicio
         Me.SplitContainer2.Size = New System.Drawing.Size(668, 684)
         Me.SplitContainer2.SplitterDistance = 157
         Me.SplitContainer2.TabIndex = 3
+        '
+        'BTNDiferencias
+        '
+        Me.BTNDiferencias.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.BTNDiferencias.AutoSize = True
+        Me.BTNDiferencias.Location = New System.Drawing.Point(343, 27)
+        Me.BTNDiferencias.Name = "BTNDiferencias"
+        Me.BTNDiferencias.Size = New System.Drawing.Size(109, 37)
+        Me.BTNDiferencias.TabIndex = 2
+        Me.BTNDiferencias.Text = "Calcular diferencias"
+        Me.BTNDiferencias.UseVisualStyleBackColor = True
         '
         'Label1
         '
@@ -215,6 +242,7 @@ Partial Class Inicio
         'BGW1
         '
         Me.BGW1.WorkerReportsProgress = True
+        Me.BGW1.WorkerSupportsCancellation = True
         '
         'Inicio
         '
@@ -229,6 +257,7 @@ Partial Class Inicio
         Me.Text = "Form1"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
@@ -263,4 +292,6 @@ Partial Class Inicio
     Friend WithEvents PBDGVLocales As ProgressBar
     Friend WithEvents Splitter1 As Splitter
     Friend WithEvents BGW1 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents BTNLimpiarSeleccion As Button
+    Friend WithEvents BTNDiferencias As Button
 End Class

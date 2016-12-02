@@ -45,7 +45,6 @@ Public Class ModeloGestion
         End Try
         Return DT
     End Function
-
     Public Function ConsultarCantDevoluciones() As Integer
         Dim R As Integer
         Dim ConsultaCantidadGestion As String = "DECLARE @CantLecoq As int
@@ -92,7 +91,9 @@ Public Class ModeloGestion
                                         ITS.GIN02ID AS 'IDITM',
                                         /*LTRIM(RTRIM(ART.CodArt))+'-'+LTRIM(RTRIM(GIT521.CODDSC)) AS 'CODIGO-VARIANTE',*/
                                         LTRIM(RTRIM(ART.CodArt)) AS 'CODIGO',
-                                        LTRIM(RTRIM(GIT521.CODDSC)) AS 'VARIANTE',
+                                        LTRIM(RTRIM(GIT521.CODDSC)) AS 'COD. ALTERNATIVA',
+                                        LTRIM(RTRIM(GIT521.DESDSC)) AS 'ALTERNATIVA',
+                                        LTRIM(RTRIM(ART.DesArt)) AS 'ARTICULO',
                                         /*LTRIM(RTRIM(ART.DesArt))+' - '+LTRIM(RTRIM(GIT521.DESDSC)) AS 'ARTICULO',*/
                                         ISNULL(GIT522.CODDSC,GIT521.CODDSC) AS 'TALLE',
                                         ITS.Cantid AS 'CANTIDAD',
@@ -114,6 +115,81 @@ Public Class ModeloGestion
             Return Nothing
         End Try
         Return DT
+    End Function
+    Public Function DetalleDevolucion(ByRef ListaComprobantes As List(Of Integer), ByRef distri_Lecoq As String) As DataTable
+        Dim DT As New DataTable
+        'Dim DTAux As New DataTable
+        For Each Comp As Integer In ListaComprobantes
+            DT.Merge(DetalleDevolucion(Comp, distri_Lecoq))
+        Next
+        Return DT
+    End Function
+    Public Shared Function ConvertirCodigo(ByVal ITM As ItemDevolucion) As String
+        Dim DBFArticulos = New ModeloDBF(My.Settings.CNSLince_UbicacionBDArt, My.Settings.CNSLince_BDArt)
+        ITM.Articulo.CodLince = ITM.Articulo.CodGestion
+
+        While IsMatch(Mid(ITM.Articulo.CodLince, Len(ITM.Articulo.CodLince) - 3, 4), "(-)|([-LIMN]{1,2}$)", System.Text.RegularExpressions.RegexOptions.IgnoreCase)
+            ITM.Articulo.CodLince = UltimoCaracter(ITM.Articulo.CodLince)
+        End While
+        If Not ITM.Articulo.CodLince.Contains("-") Then
+            If Mid(ITM.Articulo.CodLince, 1, 1).ToUpper = "K" Then
+                ITM.Articulo.CodLince = ITM.Articulo.CodLince.Insert(2, "-")
+            ElseIf Mid(ITM.Articulo.CodLince, 1, 1).ToUpper = "S" Then
+                ITM.Articulo.CodLince = ITM.Articulo.CodLince.Insert(1, "-")
+                ITM.Articulo.CodLince = ITM.Articulo.CodLince.Insert(3, "-")
+            Else
+                ITM.Articulo.CodLince = ITM.Articulo.CodLince.Insert(1, "-")
+            End If
+        End If
+        If IsMatch(Mid(ITM.Articulo.CodLince, 1, 1).ToUpper, "[C]-*") = True Then
+            'ES CROCS
+            'VERIFICO EXISTENCIA
+            If DBFArticulos.buscarArticulo(ITM.Articulo.CodLince.ToUpper) = False Then
+                ITM.Articulo.CodLince = Nothing
+            End If
+        ElseIf IsMatch(Mid(ITM.Articulo.CodLince, 1, 1).ToUpper, "[0-9]-*") = True Then
+            'ES LECOQ
+            If DBFArticulos.buscarArticulo(ITM.Articulo.CodLince.ToUpper) = False Then
+                'CONCATENO CODIGO DE VARIANTE
+                ITM.Articulo.CodLince = String.Concat(ITM.Articulo.CodLince, ITM.Alternativa.CodigoGestion)
+                'VUELVO A VERIFICAR EXISTENCIA
+                If DBFArticulos.buscarArticulo(ITM.Articulo.CodLince.ToUpper) = False Then
+                    ITM.Articulo.CodLince = Nothing
+                End If
+            End If
+        ElseIf IsMatch(Mid(ITM.Articulo.CodLince, 1, 5).ToUpper, "([S]-[0-9]-[S])") = True Then
+            'ES SUPERGA
+            If DBFArticulos.buscarArticulo(ITM.Articulo.CodLince.ToUpper) = False Then
+                ITM.Articulo.CodLince = Nothing
+            End If
+        ElseIf IsMatch(Mid(ITM.Articulo.CodLince, 1, 5).ToUpper, "[K]-?-?-*") = True Then
+            If (From c As Char In ITM.Articulo.CodLince Where c = "-" Select c).Count > 1 Then
+                ITM.Articulo.CodLince = ITM.Articulo.CodLince.Remove(1, 1)
+            End If
+            If ITM.Articulo.CodLince.Length > 13 Then
+                    ITM.Articulo.CodLince = ITM.Articulo.CodLince.Replace("-", "")
+                End If
+            If DBFArticulos.buscarArticulo(ITM.Articulo.CodLince.ToUpper) = False Then
+                'CONCATENO CODIGO DE VARIANTE
+                ITM.Articulo.CodLince = String.Concat(ITM.Articulo.CodLince, ITM.Alternativa.CodigoGestion)
+                'VUELVO A VERIFICAR EXISTENCIA
+                Dim ArtAux As String = ITM.Articulo.CodLince
+                If ITM.Articulo.CodLince.Length > 13 Then
+                    ITM.Articulo.CodLince = ITM.Articulo.CodLince.Replace("-", "")
+                    If DBFArticulos.buscarArticulo(ITM.Articulo.CodLince.ToUpper) = False Then
+                        ITM.Articulo.CodLince = Mid(ArtAux, 1, ArtAux.Length - 1)
+                        If DBFArticulos.buscarArticulo(ITM.Articulo.CodLince.ToUpper) = False Then
+                            ITM.Articulo.CodLince = Nothing
+                        End If
+                    End If
+                Else
+                    If DBFArticulos.buscarArticulo(ITM.Articulo.CodLince.ToUpper) = False Then
+                        ITM.Articulo.CodLince = Nothing
+                    End If
+                End If
+            End If
+        End If
+        Return ITM.Articulo.CodLince.ToUpper
     End Function
     Public Function ConvertirCodigosALince(ByRef id_comp As Integer, ByRef distri_Lecoq As String, ByVal Suc As Sucursal) As DataTable
         Dim DT As New DataTable
@@ -218,7 +294,132 @@ Public Class ModeloGestion
                         fila.Item("CONVERTIDO") = True
                     End If
                 Else
+                    fila.Item("CONVERTIDO") = False
+                End If
+                'DT.Rows.Remove(DT.Rows.Find(fila.Item("IDITM")))
+            Next
+            If CROCS.Count > 0 Then
+                DT.Merge(CROCS.CopyToDataTable)
+            End If
+            If SUPERGA.Count > 0 Then
+                DT.Merge(SUPERGA.CopyToDataTable)
+            End If
+            If LECOQ.Count > 0 Then
+                DT.Merge(LECOQ.CopyToDataTable)
+            End If
+            If KAPPA.Count > 0 Then
+                DT.Merge(KAPPA.CopyToDataTable)
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+        Dim x = New List(Of String)
+        Return DT
+    End Function
+    Public Function ConvertirCodigosALince(ByRef id_comp As List(Of Integer), ByRef distri_Lecoq As String, ByVal Suc As Sucursal) As DataTable
+        Dim DT As New DataTable
+        DT = DetalleDevolucion(id_comp, distri_Lecoq)
+        Dim PK(0) As DataColumn
+        PK(0) = DT.Columns(0)
+        DT.PrimaryKey = PK
+        Try
+            DT.Columns.Add(New DataColumn("CONVERTIDO", Type.GetType("System.Boolean")))
+            Dim DBFArticulos = New ModeloDBF(My.Settings.CNSLince_UbicacionBDArt, My.Settings.CNSLince_BDArt)
+            Dim ArtOriginal As String
+            'ES CROCS
+            Dim CROCS = (From p As DataRow In DT Select p Where p.Item("CODIGO") Like "C-*").ToList
+            For Each fila As DataRow In CROCS
+                ArtOriginal = fila.Item("CODIGO").ToString
+                'ELIMINO IDENTIFICADOR INTERNO.
+                While IsMatch(Mid(fila.Item("CODIGO").ToString, Len(fila.Item("CODIGO").ToString) - 3, 4), "(-)|([-LIMN]{1,2}$)", System.Text.RegularExpressions.RegexOptions.IgnoreCase)
+                    fila.Item("CODIGO") = UltimoCaracter(fila.Item("CODIGO".ToString))
+                    fila.Item("CODIGO") = fila.Item("CODIGO").ToString.Insert(1, "-")
+                End While
+                'VERIFICO EXISTENCIA
+                If DBFArticulos.buscarArticulo(fila.Item("CODIGO").ToString.ToUpper) = False Then
+                    fila.Item("CODIGO") = ArtOriginal
+                    fila.Item("CONVERTIDO") = False
+                Else
                     fila.Item("CONVERTIDO") = True
+                End If
+                'DT.Rows.Remove(DT.Rows.Find(fila.Item("IDITM")))
+            Next
+            'ES LECOQ
+            Dim LECOQ = (From p As DataRow In DT Select p Where p.Item("CODIGO").ToString Like "[0-9]-*").ToList
+            For Each fila As DataRow In LECOQ
+                ArtOriginal = fila.Item("CODIGO").ToString
+                'ELIMINO IDENTIFICADOR INTERNO.
+                While IsMatch(Mid(fila.Item("CODIGO").ToString, Len(fila.Item("CODIGO").ToString) - 3, 4), "(-)|([-LIMN]{1,2}$)", System.Text.RegularExpressions.RegexOptions.IgnoreCase)
+                    fila.Item("CODIGO") = UltimoCaracter(fila.Item("CODIGO").ToString)
+                    fila.Item("CODIGO") = fila.Item("CODIGO").ToString.Insert(1, "-")
+                End While
+                'VERIFICO EXISTENCIA / *** MEJORAR DOBLE VERIFICACION *** VER REGEX (REGEXR.COM) *** /
+                If DBFArticulos.buscarArticulo(fila.Item("CODIGO").ToString.ToUpper) = False Then
+                    'CONCATENO CODIGO DE VARIANTE
+                    fila.Item("CODIGO") = String.Concat(fila.Item("CODIGO"), fila.Item("VARIANTE"))
+                    'VUELVO A VERIFICAR EXISTENCIA
+                    If DBFArticulos.buscarArticulo(fila.Item("CODIGO").ToString.ToUpper) = False Then
+                        fila.Item("CODIGO") = ArtOriginal
+                        fila.Item("CONVERTIDO") = False
+                    Else
+                        fila.Item("CONVERTIDO") = True
+                    End If
+                Else
+                    fila.Item("CONVERTIDO") = True
+                End If
+                'DT.Rows.Remove(DT.Rows.Find(fila.Item("IDITM")))
+            Next
+            'ES SUPERGA
+            Dim SUPERGA = (From p As DataRow In DT Select p Where IsMatch(p.Item("CODIGO").ToString, "^([S-]+\d{1}[-S]+)\w*") = True).ToList
+            For Each fila As DataRow In SUPERGA
+                ArtOriginal = fila.Item("CODIGO").ToString
+                'ELIMINO IDENTIFICADOR INTERNO.
+                While IsMatch(Mid(fila.Item("CODIGO").ToString, Len(fila.Item("CODIGO").ToString) - 3, 4), "(-)|([-LIMN]{1,2}$)", System.Text.RegularExpressions.RegexOptions.IgnoreCase)
+                    fila.Item("CODIGO") = UltimoCaracter(fila.Item("CODIGO").ToString)
+                End While
+                'VERIFICO EXISTENCIA
+                If DBFArticulos.buscarArticulo(fila.Item("CODIGO").ToString.ToUpper) = False Then
+                    fila.Item("CODIGO") = ArtOriginal
+                    fila.Item("CONVERTIDO") = False
+                Else
+                    fila.Item("CONVERTIDO") = True
+                End If
+                'DT.Rows.Remove(DT.Rows.Find(fila.Item("IDITM")))
+            Next
+            'ES KAPPA
+            'Dim KAPPA = (From p As DataRow In DT Select p Where IsMatch(p.Item("CODIGO").ToString, "^([K-]{2}\d{1}[-]{1})\w*") = True).ToList
+            Dim KAPPA = (From p As DataRow In DT Select p Where p.Item("CODIGO").ToString Like "K-?-*" Or p.Item("CODIGO").ToString Like "k-?-*").ToList
+            For Each fila As DataRow In KAPPA
+                ArtOriginal = fila.Item("CODIGO").ToString
+                'ELIMINO IDENTIFICADOR INTERNO.
+                'While IsNumeric(Mid(fila.Item("CODIGO".ToString), Len(fila.Item("CODIGO".ToString)), 1)) = False
+                '    fila.Item("CODIGO") = UltimoCaracter(fila.Item("CODIGO".ToString))
+                'End While
+                If IsMatch(Mid(fila.Item("CODIGO").ToString, Len(fila.Item("CODIGO").ToString) - 3, 4), "(-)|([-LIMN]{1,2}$)", System.Text.RegularExpressions.RegexOptions.IgnoreCase) Then
+                    For i = 1 To 3
+                        fila.Item("CODIGO") = UltimoCaracter(fila.Item("CODIGO".ToString))
+                    Next
+                End If
+                'ELIMINO PRIMER GUION
+                fila.Item("CODIGO") = fila.Item("CODIGO").ToString.Remove(1, 1)
+                'VERIFICO EXISTENCIA / *** MEJORAR DOBLE VERIFICACION *** VER REGEX (REGEXR.COM) *** /
+                If DBFArticulos.buscarArticulo(fila.Item("CODIGO").ToString.ToUpper) = False Then
+                    'CONCATENO CODIGO DE VARIANTE
+                    fila.Item("CODIGO") = String.Concat(fila.Item("CODIGO"), fila.Item("VARIANTE"))
+                    'VERIFICO EL LARGO
+                    If Len(fila.Item("CODIGO")) > 13 Then
+                        fila.Item("CODIGO") = fila.Item("CODIGO").ToString.Replace("-", "")
+                        fila.Item("CODIGO") = fila.Item("CODIGO").ToString.Insert(1, "-")
+                    End If
+                    'VERIFICO EXISTENCIA (Otra vez)
+                    If DBFArticulos.buscarArticulo(fila.Item("CODIGO").ToString.ToUpper) = False Then
+                        fila.Item("CODIGO") = ArtOriginal
+                        fila.Item("CONVERTIDO") = False
+                    Else
+                        fila.Item("CONVERTIDO") = True
+                    End If
+                Else
+                    fila.Item("CONVERTIDO") = False
                 End If
                 'DT.Rows.Remove(DT.Rows.Find(fila.Item("IDITM")))
             Next
