@@ -1,4 +1,5 @@
-﻿Public Class ArticuloGenerico
+﻿<Serializable()>
+Public Class ArticuloGenerico
     Public Property ID As UInteger
     Public Property CodLince As String
     Public Property CodDragon As String

@@ -1,4 +1,5 @@
-﻿Public Class Talle
+﻿<Serializable()>
+Public Class Talle
     Public Property ID As UInteger
     Public Property Descripcion As String
     Public Property CodigoLince As String

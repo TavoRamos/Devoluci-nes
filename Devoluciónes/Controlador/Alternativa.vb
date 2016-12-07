@@ -1,9 +1,10 @@
-﻿Public Class Alternativa
+﻿<Serializable()>
+Public Class Alternativa
     Public Property ID As UInteger
-    Public CodigoGestion As String
-    Public CodigoDragon As String
-    Public CodigoHexagono As String
-    Public Descripcion As String
+    Public Property CodigoGestion As String
+    Public Property CodigoDragon As String
+    Public Property CodigoHexagono As String
+    Public Property Descripcion As String
     Public Sub New()
     End Sub
     Public Sub New(ByRef codigo_gestion As String, ByRef codigo_dragon As String, ByRef codigo_hexagono As String, ByRef descripcion As String, ByRef Optional ID As UInteger = Nothing)

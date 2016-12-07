@@ -3,8 +3,10 @@
     Public Sub New()
         MyBase.New()
     End Sub
-    Public Function CalcularDiferencias(ByRef DevGestion As DataTable, ByRef DevSucursal As DataTable, ByRef suc As Sucursal) As List(Of ItemDevolucion)
+
+    Public Function CalcularDiferencias(ByRef DevGestion As DataTable, ByRef DevSucursal As DataTable, ByRef suc As Sucursal) As Object 'List(Of ItemDevolucion)
         Dim RESULTADO = New List(Of ItemDevolucion)
+        Dim RESULTADOLince = New List(Of ItemDevolucion)
         Dim ListaGes = New List(Of ItemDevolucion)
         Dim ListaSuc = New List(Of ItemDevolucion)
         Dim ArtAux = New ArticuloGenerico()
@@ -21,12 +23,12 @@
                 If Not IsNothing(BuscarTalle(Trim(Fila.Item("TALLE")))) Then
                     TalAux = BuscarTalle(Trim(Fila.Item("TALLE")))
                 Else
-                    TalAux = New Talle(Nothing, Nothing, Nothing, Trim(Fila.Item("TALLE")), Nothing)
+                    TalAux = New Talle(Nothing, Trim(Fila.Item("TALLE")), Trim(Fila.Item("TALLE")), Trim(Fila.Item("TALLE")), Nothing)
                 End If
                 If Not IsNothing(BuscarAlternativa(Trim(Fila.Item("COD. ALTERNATIVA")))) Then
                     AltAux = BuscarAlternativa(Trim(Fila.Item("COD. ALTERNATIVA")))
                 Else
-                    AltAux = New Alternativa(Trim(Fila.Item("COD. ALTERNATIVA")), Nothing, Nothing, Fila.Item("ALTERNATIVA"))
+                    AltAux = New Alternativa(Trim(Fila.Item("COD. ALTERNATIVA")), Trim(Fila.Item("COD. ALTERNATIVA")), Nothing, Fila.Item("ALTERNATIVA"))
                 End If
 
                 If ListaGes.Exists(Function(P As ItemDevolucion) P.Articulo.CodGestion.Equals((ArtAux.CodGestion)) And P.Alternativa.CodigoGestion.Equals(AltAux.CodigoGestion) And P.Talle.CodigoGestion.Equals(TalAux.CodigoGestion)) Then
@@ -86,13 +88,27 @@
                     Item.Articulo.CodLince = ModeloGestion.ConvertirCodigo(Item)
                 End If
                 If suc.TieneLince Then
-                    If Not ListaSuc.Exists(Function(P As ItemDevolucion) P.Articulo.CodLince = Item.Articulo.CodLince And P.Talle.CodigoLince = Item.Talle.CodigoLince And P.Cantidad = Item.Cantidad) Then
+                    If ListaSuc.Exists(Function(P As ItemDevolucion) P.Articulo.CodLince = Item.Articulo.CodLince And P.Talle.CodigoLince = Item.Talle.CodigoLince And P.Cantidad = Item.Cantidad) = False Then
+                        Debug.Print(Item.Articulo.CodGestion.ToString + " / " + Item.Articulo.CodLince.ToString)
+                        RESULTADO.Add(Item)
+                    Else
+                    End If
+                Else
+                    If ListaSuc.Exists(Function(P As ItemDevolucion) P.Articulo.CodDragon = Item.Articulo.CodDragon And P.Alternativa.CodigoDragon = Item.Alternativa.CodigoDragon And P.Talle.CodigoDragon = Item.Talle.CodigoDragon And P.Cantidad = Item.Cantidad) = False Then
                         RESULTADO.Add(Item)
                     End If
+                End If
+            Next
 
+            For Each Item As ItemDevolucion In ListaSuc
+                If suc.TieneLince Then
+                    If ListaGes.Exists(Function(P As ItemDevolucion) P.Articulo.CodLince = Item.Articulo.CodLince And P.Talle.CodigoLince = Item.Talle.CodigoLince And P.Cantidad = Item.Cantidad) = False Then
+                        RESULTADOLince.Add(Item)
+                    Else
+                    End If
                 Else
-                    If Not ListaSuc.Exists(Function(P As ItemDevolucion) P.Articulo.CodDragon = Item.Articulo.CodDragon And P.Talle.CodigoDragon = Item.Talle.CodigoDragon And P.Cantidad = Item.Cantidad) Then
-                        RESULTADO.Add(Item)
+                    If ListaGes.Exists(Function(P As ItemDevolucion) P.Articulo.CodDragon = Item.Articulo.CodDragon And P.Alternativa.CodigoDragon = Item.Alternativa.CodigoDragon And P.Talle.CodigoDragon = Item.Talle.CodigoDragon And P.Cantidad = Item.Cantidad) = False Then
+                        RESULTADOLince.Add(Item)
                     End If
                 End If
             Next
@@ -100,6 +116,9 @@
             MsgBox("Devolucion.CalcularDiferencias" + vbCrLf + ex.Message)
             Return Nothing
         End Try
-        Return RESULTADO
+        Dim A(1)
+        A(0) = RESULTADO
+        A(1) = RESULTADOLince
+        Return A
     End Function
 End Class

@@ -154,6 +154,54 @@
   <ItemGroup>
     <None Include="Resources\Box2.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Plus_48px_5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Plus_16px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Close Window_16px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cancel_16px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ok_16px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Settings_16px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Note_16px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Download_16px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Filled Filter_16px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\High Priority_16px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Info_16px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Minus_16px_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Clear Filters_16px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Double Left_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Double Right_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Split Horizontal_32px_1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

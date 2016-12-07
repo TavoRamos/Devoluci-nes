@@ -213,9 +213,11 @@ Public Class Inicio
         '                   Select y.p.Articulo, Art2, y.p.Talle, Tal2, y.p.Sum, Sum2).ToList
         'A(0) = Diferencias
         'A(1) = DiferenciaSuc
-        A(0) = Devoluciones.CalcularDiferencias(DGVGestion.DataSource, DGVSucursal.DataSource, Sucursal)
-        DLGDiferencias.Show()
+        A = Devoluciones.CalcularDiferencias(DGVGestion.DataSource, DGVSucursal.DataSource, Sucursal)
+        'A(1) = Devoluciones.CalcularDiferencias(DGVGestion.DataSource, DGVSucursal.DataSource, Sucursal)(1)
+
         DLGDiferencias.DLGDiferencias_Load(A, EventArgs.Empty)
+        DLGDiferencias.Show()
     End Sub
     Dim Sucursal As Sucursal
     Private Sub DGVDev_KeyDown(sender As Object, e As KeyEventArgs) Handles DGVDev.KeyDown
