@@ -17,7 +17,7 @@ Public Class ModeloGestion
                                     INNER JOIN GI_DN.dbo.GIT05TCM AS TCM ON TCM.GIT05Id=CPB.IDGIT05O
                                     INNER JOIN GI_DN.dbo.GIM02ANA AS ANA ON CPB.IdGIM02O=ANA.GIM02Id
                                     LEFT JOIN GI_DN.dbo.GIN02ITS AS ITS ON CPB.GIN01Id=ITS.IdGIN01O
-                                    WHERE TCM.GIT05Id=341 AND ANA.DesAna LIKE 'DISTRINANDO S.A_%(%' AND ANA.GIM02Id <> 36707 AND ANA.GIM02Id <> 4193 AND ANA.GIM02Id <> 38238 AND ANA.GIM02Id <> 37962 AND CPB.Estado<>'A'
+                                    WHERE (TCM.GIT05Id=341 OR TCM.GIT05Id=342 OR TCM.GIT05Id=343) AND (ANA.DesAna LIKE 'DISTRINANDO S.A_%(%' OR ANA.GIM02Id=484)  /*AND ANA.GIM02Id <> 36707*/ AND ANA.GIM02Id <> 4193 AND ANA.GIM02Id <> 38238 AND ANA.GIM02Id <> 37962 AND CPB.Estado<>'A' 
                                     GROUP BY CPB.GIN01Id,NumComO,GIT05Id,CodTCm,FecCom,CodAna,DesAna,ConPas
                                     UNION
                                     SELECT 'DISTRI-'+CAST(TCM.GIT05Id As Varchar) +'-'+ TCM.CodTCm As 'EMP-CODTCM-TCM',
@@ -31,7 +31,7 @@ Public Class ModeloGestion
                                     INNER JOIN GI_DN2.dbo.GIT05TCM AS TCM ON TCM.GIT05Id=CPB.IDGIT05O
                                     INNER JOIN GI_DN2.dbo.GIM02ANA AS ANA ON CPB.IdGIM02O=ANA.GIM02Id
                                     LEFT JOIN GI_DN2.dbo.GIN02ITS AS ITS ON CPB.GIN01Id=ITS.IdGIN01O
-                                    WHERE TCM.GIT05Id=341 AND ANA.DesAna LIKE 'DISTRINANDO S.A_%(%' AND ANA.GIM02Id <> 36707 AND ANA.GIM02Id <> 4193 AND ANA.GIM02Id <> 38238 AND ANA.GIM02Id <> 37962 AND CPB.Estado<>'A'
+                                    WHERE (TCM.GIT05Id=341 OR TCM.GIT05Id=342 OR TCM.GIT05Id=343) AND (ANA.DesAna LIKE 'DISTRINANDO S.A_%(%' OR ANA.GIM02Id=484) /*AND ANA.GIM02Id <> 36707*/ AND ANA.GIM02Id <> 4193 AND ANA.GIM02Id <> 38238 AND ANA.GIM02Id <> 37962 AND CPB.Estado<>'A'
                                     GROUP BY CPB.GIN01Id,NumComO,GIT05Id,CodTCm,FecCom,CodAna,DesAna,ConPas
                                     ORDER BY [Comprobante],[Fecha] DESC"
         Dim DT = New DataTable

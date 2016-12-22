@@ -139,7 +139,7 @@ Partial Class Inicio
         '
         Me.BTNDiferencias.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.BTNDiferencias.AutoSize = True
-        Me.BTNDiferencias.Location = New System.Drawing.Point(343, 27)
+        Me.BTNDiferencias.Location = New System.Drawing.Point(477, 27)
         Me.BTNDiferencias.Name = "BTNDiferencias"
         Me.BTNDiferencias.Size = New System.Drawing.Size(109, 37)
         Me.BTNDiferencias.TabIndex = 2
@@ -161,7 +161,7 @@ Partial Class Inicio
         Me.ListaMovsRef.FormattingEnabled = True
         Me.ListaMovsRef.Location = New System.Drawing.Point(3, 27)
         Me.ListaMovsRef.Name = "ListaMovsRef"
-        Me.ListaMovsRef.Size = New System.Drawing.Size(336, 124)
+        Me.ListaMovsRef.Size = New System.Drawing.Size(468, 124)
         Me.ListaMovsRef.TabIndex = 3
         '
         'SplitContainer3

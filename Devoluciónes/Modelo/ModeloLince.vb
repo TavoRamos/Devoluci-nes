@@ -29,7 +29,7 @@
         End If
         Dim da
         If Not String.IsNullOrWhiteSpace(NombreDB) Then
-            da = New System.Data.Odbc.OdbcDataAdapter("SELECT 'Num. '+ltrim(rtrim(str(numr)))+' - Rem. '+ltrim(rtrim(rem))+' ('+ltrim(rtrim(str(SUM(canti))))+')' As 'movimiento',SUM(canti),rem,numr,fchr,mx1 FROM " & NombreDB & " WHERE mcli='" & Sucursal.CodigoLince & "' AND estado<>1 GROUP BY rem,fchr,numr ORDER BY fchr", CNS)
+            da = New System.Data.Odbc.OdbcDataAdapter("SELECT 'Num. '+ltrim(rtrim(str(numr)))+' / '+right(ltrim(rtrim(str(mx1))),4)+' - Rem. '+ltrim(rtrim(rem))+' ('+ltrim(rtrim(str(SUM(canti))))+')' As 'movimiento',SUM(canti),rem,numr,fchr,mx1 FROM " & NombreDB & " WHERE mcli='" & Sucursal.CodigoLince & "' AND estado<>1 GROUP BY rem,fchr,numr,mx1 ORDER BY fchr", CNS)
         End If
         Dim dt As New DataTable
         Try
